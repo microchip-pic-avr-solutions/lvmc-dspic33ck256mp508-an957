@@ -57,9 +57,7 @@
 #include "board_service.h"
 
 BUTTON_T buttonStartStop;
-#ifdef MCLV2
-    BUTTON_T buttonFwdRev;
-#endif
+BUTTON_T buttonFwdRev;
 // *****************************************************************************
 // *****************************************************************************
 // Section: Functions
@@ -68,7 +66,7 @@ static void ButtonGroupInitialize(void);
 static void ButtonScan(BUTTON_T * ,bool);
 uint16_t boardServiceISRCounter = 0;
 // *****************************************************************************
-bool IsPressed_Button1(void)
+bool HAL_IsPressed_Button1(void)
 {
     if(buttonStartStop.status)
     {
@@ -80,8 +78,8 @@ bool IsPressed_Button1(void)
         return false;
     }
 }
-#ifdef MCLV2
-bool IsPressed_Button2(void)
+
+bool HAL_IsPressed_Button2(void)
 {
     if(buttonFwdRev.status)
     {
@@ -93,29 +91,27 @@ bool IsPressed_Button2(void)
         return false;
     }
 }
-#endif
-void BoardServiceStepIsr(void)
+
+void HAL_BoardServiceStepIsr(void)
 {
     if (boardServiceISRCounter <  BOARD_SERVICE_TICK_COUNT)
     {
         boardServiceISRCounter += 1;
     }
 }
-void BoardService(void)
+void HAL_BoardService(void)
 {
     if (boardServiceISRCounter ==  BOARD_SERVICE_TICK_COUNT)
     {
         /* Button scanning loop for Button 1 to start Motor A */
         ButtonScan(&buttonStartStop,BUTTON_START_STOP);
-#ifdef MCLV2
         /* Button scanning loop for SW2 to enter into filed
             weakening mode */
         ButtonScan(&buttonFwdRev,BUTTON_FWD_REV);
-#endif
         boardServiceISRCounter = 0;
     }
 }
-void BoardServiceInit(void)
+void HAL_BoardServiceInit(void)
 {
     ButtonGroupInitialize();
     boardServiceISRCounter = BOARD_SERVICE_TICK_COUNT;
@@ -150,15 +146,15 @@ void ButtonGroupInitialize(void)
     buttonStartStop.state = BUTTON_NOT_PRESSED;
     buttonStartStop.debounceCount = 0;
     buttonStartStop.state = false;
-#ifdef MCLV2
+
     buttonFwdRev.state = BUTTON_NOT_PRESSED;
     buttonFwdRev.debounceCount = 0;
     buttonFwdRev.state = false;
-#endif
+
 }
 // *****************************************************************************
 /* Function:
-    InitPeripherals()
+    HAL_SystemInitialize()
 
   Summary:
     Routine initializes controller peripherals
@@ -178,22 +174,21 @@ void ButtonGroupInitialize(void)
   Remarks:
     None.
  */
-void InitPeripherals(void)
+void HAL_SystemInitialize(void)
 {                
 	InitOscillator();   
     SetupGPIOPorts();   
     Init_SCCP4 ();      
-    CCP4CON1Lbits.CCPON = 1;
     PWM_Initialize();
     Init_ADC();
 }
-uint16_t HAL_HallValueRead(void)
+uint16_t HAL_MC1HallValueRead(void)
 {
     uint16_t buffer;
     uint16_t hallValue;
     
-    buffer = PORTD;
-    buffer = buffer >> 1;
+    buffer = PORTE;
+    buffer = buffer >> 8;
     hallValue = buffer & 0x0007; 
     
     return hallValue;
@@ -208,11 +203,14 @@ void HAL_MC1PWMEnableOutputs(void)
     
     // Enable PWMs only on PWMxL ,to charge bootstrap capacitors initially.
     // Hence PWMxH is over-ridden to "LOW"
-    PG3IOCONLbits.OVRENH = 0;  // 0 = PWM generator provides data for PWM3H pin
+
+
+    PG4IOCONLbits.OVRENH = 0;  // 0 = PWM generator provides data for PWM3H pin
     PG2IOCONLbits.OVRENH = 0;  // 0 = PWM generator provides data for PWM2H pin
     PG1IOCONLbits.OVRENH = 0;  // 0 = PWM generator provides data for PWM1H pin
 
-    PG3IOCONLbits.OVRENL = 0;  // 0 = PWM generator provides data for PWM3L pin
+
+    PG4IOCONLbits.OVRENL = 0;  // 0 = PWM generator provides data for PWM3L pin
     PG2IOCONLbits.OVRENL = 0;  // 0 = PWM generator provides data for PWM2L pin
     PG1IOCONLbits.OVRENL = 0;  // 0 = PWM generator provides data for PWM1L pin
 }
@@ -223,15 +221,17 @@ void HAL_MC1PWMDisableOutputs(void)
     MC1_PWM_PDC2 = 0;
     MC1_PWM_PDC1 = 0;
     
-    PG3IOCONLbits.OVRDAT = 0;  // 0b00 = State for PWM3H,L, if Override is Enabled
+    PG4IOCONLbits.OVRDAT = 0;  // 0b00 = State for PWM3H,L, if Override is Enabled
     PG2IOCONLbits.OVRDAT = 0;  // 0b00 = State for PWM2H,L, if Override is Enabled
     PG1IOCONLbits.OVRDAT = 0;  // 0b00 = State for PWM1H,L, if Override is Enabled
 
-    PG3IOCONLbits.OVRENH = 1;  // 1 = OVRDAT<1> provides data for output on PWM3H
+
+    PG4IOCONLbits.OVRENH = 1;  // 1 = OVRDAT<1> provides data for output on PWM3H
     PG2IOCONLbits.OVRENH = 1;  // 1 = OVRDAT<1> provides data for output on PWM2H
     PG1IOCONLbits.OVRENH = 1;  // 1 = OVRDAT<1> provides data for output on PWM1H
 
-    PG3IOCONLbits.OVRENL = 1;  // 1 = OVRDAT<0> provides data for output on PWM3L
+
+    PG4IOCONLbits.OVRENL = 1;  // 1 = OVRDAT<0> provides data for output on PWM3L
     PG2IOCONLbits.OVRENL = 1;  // 1 = OVRDAT<0> provides data for output on PWM2L
     PG1IOCONLbits.OVRENL = 1;  // 1 = OVRDAT<0> provides data for output on PWM1L
 }
@@ -295,4 +295,5 @@ void HAL_MC1MotorInputsRead(MCAPP_MEASURE_T *pMotorInputs)
 {   
     pMotorInputs->measureCurrent.Ibus = (ADCBUF_IBUS);
     pMotorInputs->measurePot = (int16_t)(ADCBUF_POT >>1);
+    pMotorInputs->measureVdc.value = (int16_t)(ADCBUF_VBUS >>1);
 }

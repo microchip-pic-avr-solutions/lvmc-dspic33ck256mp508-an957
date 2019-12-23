@@ -46,13 +46,15 @@
 * certify, or support the code.
 *
 *******************************************************************************/
-#ifndef _SCCP_H
-#define _SCCP_H
+
+#ifndef _TIMER_H
+#define _TIMER_H
 
 #ifdef __cplusplus  // Provide C++ Compatability
     extern "C" {
 #endif
-// *****************************************************************************
+     
+ // *****************************************************************************
 // *****************************************************************************
 // Section: Included Files
 // *****************************************************************************
@@ -62,11 +64,8 @@
 // *****************************************************************************
 // *****************************************************************************
 // Section: Constants
-// *****************************************************************************
-// *****************************************************************************       
-/** The SCCP3 Timer Prescaler Value set to 1:64 */
-#define	TIMER_PRESCALER     64
-// *****************************************************************************
+   /** The SCCP3 Timer Prescaler Value set to 1:64 */
+#define	SPEED_MEASURE_TIMER_PRESCALER     64     
 // *****************************************************************************
 // Section: Functions
 // *****************************************************************************
@@ -77,7 +76,24 @@ void Init_SCCP4(void);
 // Section: Interface Routines
 // *****************************************************************************
 // *****************************************************************************
-inline static uint32_t SCCP4_TimerDataRead(void) 
+    
+// <editor-fold defaultstate="expanded" desc="TYPE DEFINITIONS ">  
+        
+/** SCCP4 Clock Pre-scalers */
+typedef enum tagSCCP4_CLOCK_PRESCALER
+{ 
+    /** TMRPS<1:0>: CCPx Time Base Prescale Select bits
+        0b11 = 1:64 , 0b10 = 1:16 ,0b01 = 1:4 0b00 = 1:1                     */
+    SCCP4_CLOCK_PRESCALER_64    = 3,
+    SCCP4_CLOCK_PRESCALER_16    = 2,
+    SCCP4_CLOCK_PRESCALER_4     = 1,
+    SCCP4_CLOCK_PRESCALER_1     = 0,
+            
+}SCCP4_CLOCK_PRESCALER_TYPE;
+
+// </editor-fold> 
+
+inline static int32_t SCCP4_TimerDataRead(void) 
 { 
     uint32_t timervalue;
     uint32_t timerLvalue;
@@ -93,4 +109,37 @@ inline static void SCCP4_SetTimerPeriod(uint32_t timerPeriod)
     CCP4PRL = (uint16_t)(timerPeriod & 0x0000FFFF);           
     CCP4PRH = (uint16_t)(timerPeriod >> 16);    
 }
-#endif
+/**
+ * Sets the TImer1 Input Clock Select bits.
+ * @example
+ * <code>
+ * TIMER1_InputClockSet();
+ * </code>
+ */
+inline static void SCCP4_SetTimerPrescaler(uint16_t timerPrescaler)
+{
+    if(timerPrescaler == 64)
+    {
+        CCP4CON1Lbits.TMRPS = SCCP4_CLOCK_PRESCALER_64;
+    }
+    else if(timerPrescaler == 16)
+    {
+        CCP4CON1Lbits.TMRPS = SCCP4_CLOCK_PRESCALER_16;
+    }
+    else if(timerPrescaler == 4)
+    {
+        CCP4CON1Lbits.TMRPS = SCCP4_CLOCK_PRESCALER_4;
+    }
+    else if(timerPrescaler == 1)
+    {
+        CCP4CON1Lbits.TMRPS = SCCP4_CLOCK_PRESCALER_1;
+    }
+    
+}
+
+inline static void SCCP4_Timer_Start()
+{
+     CCP4CON1Lbits.CCPON = 1;
+}       
+
+#endif        

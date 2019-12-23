@@ -58,30 +58,30 @@
 // *****************************************************************************
 #include <xc.h>
 #include <stdint.h>
-#include "port_config.h"        
 // *****************************************************************************
 // *****************************************************************************
 // Section: Constants
 // *****************************************************************************
 // *****************************************************************************
 // ADC MODULE Related Definitions
-#define ADCBUF_POT      ADCBUF19
-#define ADCBUF_IBUS     ADCBUF17
-        
-/** This defines number of current offset samples for averaging 
- * If the 2^n samples are considered specify n(in this case 2^7(= 128)=> 7
- */
+#define ADCBUF_VBUS     ADCBUF15
+#define ADCBUF_POT      ADCBUF11
+#define ADCBUF_IBUS     ADCBUF4
+/* This defines number of current offset samples for averaging 
+ * If the 2^n samples are considered specify n(in this case 2^7(= 128)=> 7*/
 #define  CURRENT_OFFSET_SAMPLE_SCALER         7
    
-#define EnableADCInterrupt()   _ADCAN19IE = 1
-#define DisableADCInterrupt()  _ADCAN19IE = 0
+#define EnableADCInterrupt()   _ADCAN15IE = 1
+#define DisableADCInterrupt()  _ADCAN15IE = 0
+#define HAL_MC1ADCInterrupt _ADCAN15Interrupt  
+#define HAL_MC1ADCInterruptFlagClear  ADC_AN15InterruptFlagClear       
         
-inline static void ADC_AN19InterruptFlagClear(void) 
+inline static void ADC_AN15InterruptFlagClear(void) 
 {
     int16_t buffer;
     
-    buffer = ADCBUF19;
-    _ADCAN19IF = 0;
+    buffer = ADCBUF15;
+    _ADCAN15IF = 0;
 }        
 // *****************************************************************************
 // *****************************************************************************

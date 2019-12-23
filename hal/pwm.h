@@ -71,7 +71,7 @@
 // MC PWM MODULE Related Definitions
 #define INVERTERA_PWM_PDC1      PG1DC
 #define INVERTERA_PWM_PDC2      PG2DC
-#define INVERTERA_PWM_PDC3      PG3DC
+#define INVERTERA_PWM_PDC3      PG4DC
         
 #define START_DUTY       MPER>>2     
 #define MIN_DUTY         0
@@ -104,7 +104,7 @@
 #define LOOPTIME_TCY            (uint16_t)(((LOOPTIME_MICROSEC*FOSC_MHZ)/2)-1)
 
 /* Specify ADC Triggering Point w.r.t PWM Output for sensing Motor Currents */
-#define ADC_SAMPLING_POINT      (FCY/PWMFREQUENCY_HZ)-2
+#define ADC_SAMPLING_POINT      LOOPTIME_TCY-2
         
        
 // *****************************************************************************
@@ -124,7 +124,7 @@ inline static void PWM2_SwapOverrideEnableDataSet(uint16_t data)
 }
 inline static void PWM3_SwapOverrideEnableDataSet(uint16_t data)
 {
-    PG3IOCONL = data & 0X7C00;
+    PG4IOCONL = data & 0X7C00;
 }
 inline static uint16_t PWM_MasterPeriodRead(void)
 {

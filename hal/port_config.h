@@ -63,33 +63,25 @@
 // *****************************************************************************
 // Digital I/O definitions
 // Push button Switches
-#ifdef  MCLV2
-// S2 : PIM #83 (RD5)
-#define S2           !PORTDbits.RD5
-// S3 : PIM #84 (RE7)
-#define S3           !PORTEbits.RE7
-        
-#define DEBOUNCE_DELAY  30 	//push button debounce delay, expressed in millisecond
+
+// SW1 :  (RE11)
+#define SW1                   PORTEbits.RE11
+// SW2 :  (RE12)
+#define SW2                   PORTEbits.RE12
         
 // S2 : PIM #83 - Used as START/STOP button of Motor
-#define BUTTON_START_STOP        S2
-// S3 : PIM #84 - Used as Speed Forward/Reverse button of Motor
-#define BUTTON_FWD_REV           S3
-#endif
-
-#ifdef MCHV2_MCHV3
-// PUSH BUTTON: PIM #68
-#define PUSHBUTTON !PORTEbits.RE5   
-        
-// PUSH BUTTON : PIM #83 - Used as START/STOP button of Motor
-#define BUTTON_START_STOP        PUSHBUTTON 
-#endif
+#define BUTTON_START_STOP        SW1
+// S3 : PIM #84 - Used as Speed HALF/DOUBLE button of Motor
+#define BUTTON_FWD_REV      SW2
+                    
+#define DEBOUNCE_DELAY  30 	//push button debounce delay, expressed in millisecond
 
 // Debug LEDs
-// LED2(D2) : PIM #01(RE9)
-#define LED2                    LATEbits.LATE9
-// LED1(D17 on MCLV-2 / D19 on MCHV-2) : PIM #60(RE8)
-#define LED1                    LATEbits.LATE8
+// LED2(LD11) : (RE7)
+#define LED2                    LATEbits.LATE7
+// LED1(LD10) : (RE6)
+#define LED1                    LATEbits.LATE6
+        
 // *****************************************************************************
 // *****************************************************************************
 // Section: Functions
@@ -101,15 +93,16 @@ void SetupGPIOPorts(void);
 // Section: Interface Routines
 // *****************************************************************************
 // *****************************************************************************
-inline static void CN_InterruptPortDFlagClear(void) 
+inline static void CN_InterruptPortEFlagClear(void) 
 { 
     uint16_t buffer;
-    buffer = CNSTATD;  
-    IFS4bits.CNDIF = 0;
+    
+    buffer = CNSTATE;  
+    _CNEIF = 0;
 }
 
-inline static void CN_PortDEnable(void){CNCONDbits.ON = 1;}
+inline static void CN_PortEEnable(void){CNCONEbits.ON = 1;}
 
-inline static void CN_PortDDisable(void){CNCONDbits.ON = 0;}
+inline static void CN_PortEDisable(void){CNCONEbits.ON = 0;}
 
 #endif      // end of PORTCONFIG_H

@@ -61,7 +61,7 @@ extern "C" {
 #include <stdint.h>
 #include "measure.h"
 #include "clock.h"  
-#include "sccp.h"
+#include "timer.h"
 #include "port_config.h"
 #include "motor_control_types.h"
 #include "motor_control_declarations.h"
@@ -71,8 +71,8 @@ extern "C" {
 // Enable only one mode at a time
 // *****************************************************************************
 // *****************************************************************************   
-//#define OPENLOOP
-#define SPEED_PI_CLOSEDLOOP
+#define OPENLOOP
+//#define SPEED_PI_CLOSEDLOOP
 //#define CURRENT_PI_CLOSEDLOOP
 // *****************************************************************************
 // *****************************************************************************
@@ -81,29 +81,22 @@ extern "C" {
 // *****************************************************************************
 /** Motor Ratings (from Name Plate Details or Datasheet)*/
 // *****************************************************************************
-#ifdef MCLV2    
+    
 #define POLEPAIRS		 5		   // Number of pole pairs    
 #define SECTOR           6         // Number of Electrical Sectors in Motor
 #define MAX_MOTORSPEED   2000      // Specify the maximum speed in rpm of motor
 #define MAX_MOTORCURRENT 1         // Max-Ampere Rating of Motor
-#define MAX_BOARDCURRENT 4.4       // Max-Ampere Rating of MCLV2 Development Board
-#endif
+#define MAX_BOARDCURRENT 22       // Max-Ampere Rating of MCLV2 Development Board
+
 // *****************************************************************************    
-#ifdef MCHV2_MCHV3
-#define POLEPAIRS		 5		   // Number of pole pairs    
-#define SECTOR           6         // Number of Electrical Sectors in Motor
-#define MAX_MOTORSPEED   2000      // Specify the maximum speed in rpm of motor
-#define MAX_MOTORCURRENT 2         // Max-Ampere Rating of Motor
-#define MAX_BOARDCURRENT 16.5      // Max-Ampere Rating of MCHV2/3 Development Board
-#endif
     
 #define REVERSE_DROP_SPEED   200   // Speed to be reduced in rpm before reversing the direction
 // ***************************************************************************** 
 /** Constants for Mathematical Computation */
-#define TICKS            FCY/(TIMER_PRESCALER)
+#define TICKS            FCY/(SPEED_MEASURE_TIMER_PRESCALER)
     
 /**  SPEED MULTIPLIER CALCULATION = ((FCY*60)/(TIMER_PRESCALER*POLEPAIRS))  */
-#define SPEED_MULTI     (unsigned long)(((float)FCY/(float)(TIMER_PRESCALER*POLEPAIRS))*(float)60)
+#define SPEED_MULTI     (unsigned long)(((float)FCY/(float)(SPEED_MEASURE_TIMER_PRESCALER*POLEPAIRS))*(float)60)
     
 #define REV_SPEED_LIMIT   (unsigned long) ((float)(SPEED_MULTI)/(float)(REVERSE_DROP_SPEED))
     
@@ -117,19 +110,11 @@ extern "C" {
 #define SPEEDCNTR_OUTMIN       Q15(0.15)
 
 /** Current Control Loop Coefficients */
-#ifdef MCLV2
 #define CURRCNTR_PTERM         Q15(0.02)
 #define CURRCNTR_ITERM         Q15(0.002)
 #define CURRCNTR_CTERM         Q15(0.999)
-#define CURRCNTR_OUTMAX        Q15(0.999)
-#endif    
+#define CURRCNTR_OUTMAX        Q15(0.999)    
     
-#ifdef MCHV2_MCHV3 
-#define CURRCNTR_PTERM         Q15(0.01)
-#define CURRCNTR_ITERM         Q15(0.001)
-#define CURRCNTR_CTERM         Q15(0.999)
-#define CURRCNTR_OUTMAX        Q15(0.999)   
-#endif
 // *****************************************************************************
 /** Moving Average - No of Samples*/
 #define CURRENT_MOVING_AVG_FILTER_SCALE     4

@@ -66,7 +66,7 @@
 #include "pwm.h"
 #include "adc.h"
 #include "port_config.h"
-#include "sccp.h"
+#include "timer.h"
 #include "measure.h"
 // *****************************************************************************
 // *****************************************************************************
@@ -75,7 +75,7 @@
 // *****************************************************************************  
 #define MC1_PWM_PDC1      PG1DC
 #define MC1_PWM_PDC2      PG2DC
-#define MC1_PWM_PDC3      PG3DC
+#define MC1_PWM_PDC3      PG4DC
 
 /** Button De-bounce in milli Seconds */
 #define	BUTTON_DEBOUNCE_COUNT      30
@@ -83,8 +83,13 @@
  *  PWM ISR cycles (i.e. BOARD_SERVICE_TICK_COUNT = 1 milli Second / PWM period)
  */
 #define BOARD_SERVICE_TICK_COUNT   20
-        
+
+#define HAL_MC1HallStateChangeInterrupt              _CNEInterrupt    
+#define HAL_MC1HallStateChangeDetectionEnable        CN_PortEEnable        
+#define HAL_MC1HallStateChangeInterruptFlagClear    CN_InterruptPortEFlagClear
 #define HAL_MC1HallStateChangeMaxPeriodSet           SCCP4_SetTimerPeriod
+#define HAL_MC1HallStateChangeTimerPrescalerSet      SCCP4_SetTimerPrescaler    
+#define HAL_MC1HallStateChangeTimerStart             SCCP4_Timer_Start        
 // *****************************************************************************
 // *****************************************************************************
 // Section: Enums, Structures
@@ -134,18 +139,19 @@ typedef struct
 // Section: Functions
 // *****************************************************************************
 // *****************************************************************************
-void BoardServiceInit(void);
-void BoardServiceStepIsr(void);
-void BoardService(void);
-bool IsPressed_Button1(void);
-bool IsPressed_Button2(void);
-void InitPeripherals(void);
+void HAL_BoardServiceInit(void);
+void HAL_BoardServiceStepIsr(void);
+void HAL_BoardService(void);
+bool HAL_IsPressed_Button1(void);
+bool HAL_IsPressed_Button2(void);
+void HAL_SystemInitialize(void);
+
 void HAL_MC1PWMDisableOutputs(void);
 void HAL_MC1PWMEnableOutputs(void);
 void HAL_MC1PWMSetDutyCycles(MCAPP_DUTYCYCLEOUT_T *);
 void HAL_MC1PWMSetDutyCyclesIdentical(int16_t dutyCycle);
 void HAL_MC1MotorInputsRead(MCAPP_MEASURE_T *);
-uint16_t HAL_HallValueRead(void);
+uint16_t HAL_MC1HallValueRead(void);
 // *****************************************************************************
 // *****************************************************************************
 #endif /* __BOARD_SERVICE_H */

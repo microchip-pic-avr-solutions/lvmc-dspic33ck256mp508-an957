@@ -196,7 +196,7 @@ void Init_ADC(void)
     ADCORE0Hbits.ADCS = 0;
     /* Dedicated ADC Core 0 Resolution Selection bits
        0b11 = 12-bit ; 0b10 = 10-bit ; 0b01 = 8-bit ; 0b00 = 6-bit resolution */
-    ADCORE0Hbits.RES = 2;
+    ADCORE0Hbits.RES = 3;
     
     /* Initialize DEDICATED ADC CORE 1 CONTROL REGISTER LOW */
     ADCORE1L     = 0x0000;
@@ -220,7 +220,7 @@ void Init_ADC(void)
     ADCORE1Hbits.ADCS = 0;
     /* Dedicated ADC Core 1 Resolution Selection bits
        0b11 = 12-bit ; 0b10 = 10-bit ; 0b01 = 8-bit ; 0b00 = 6-bit resolution */
-    ADCORE1Hbits.RES = 2;
+    ADCORE1Hbits.RES = 3;
     
     /* Configuring ADC INPUT MODE CONTROL REGISTER bits 
        Output Data Sign for Corresponding Analog Inputs bits
@@ -228,12 +228,13 @@ void Init_ADC(void)
        0 = Channel output data is unsigned    */
     /*ADMOD0L configures Output Data Sign for Analog inputs  AN0 to AN7 */
     ADMOD0L = 0x0000;
-   
+    ADMOD0Hbits.SIGN15 = 0;
+    ADMOD0Hbits.SIGN11 = 0;
+    ADMOD0Lbits.SIGN4 = 1;
+    
     /*ADMOD1L configures Output Data Sign for Analog inputs  AN16 to AN23 */
     ADMOD1L = 0;
-    ADMOD1Lbits.SIGN19 = 0;
-    ADMOD1Lbits.SIGN17 = 1;
-    
+
     /* Ensuring all interrupts are disabled and Status Flags are cleared */
     ADIEL = 0;
     ADIEH = 0;
@@ -285,22 +286,27 @@ void Init_ADC(void)
     /* Common Interrupt Enable bits
        1 = Common and individual interrupts are enabled for analog channel
        0 = Common and individual interrupts are disabled for analog channel*/
-    _IE19        = 1 ;
+    _IE15        = 1 ;
     /* Clear ADC interrupt flag */
-    _ADCAN19IF    = 0 ;  
+    _ADCAN15IF    = 0 ;  
     /* Set ADC interrupt priority IPL 7  */ 
-    _ADCAN19IP   = 7 ;  
-    /* Disable the AN19 interrupt  */
-    _ADCAN19IE    = 1 ;  
-
+    _ADCAN15IP   = 6 ;  
+    /* Disable the AN15 interrupt  */
+    _ADCAN15IE    = 1 ;  
+    
+   
     /* Trigger Source Selection for Corresponding Analog Inputs bits 
         00100 = Slave PMW1 Trigger 1
         00001 = Common software trigger
         00000 = No trigger is enabled  */
-     
-    /* Trigger Source for Analog Input #17  = 0b0100 */
-    ADTRIG4Lbits.TRGSRC17 = 0x4;
     
     /* Trigger Source for Analog Input #19  = 0b0100 */
-    ADTRIG4Hbits.TRGSRC19 = 0x4;
+    
+    ADTRIG3Hbits.TRGSRC15 = 0x4;
+    
+    ADTRIG2Hbits.TRGSRC11 = 0x4;
+
+        /* Trigger Source for Analog Input #15  = 0b0100 */
+    ADTRIG1Lbits.TRGSRC4 = 0x4;
+
 }

@@ -90,7 +90,7 @@ void Init_SCCP4(void)
     CCP4CON1Hbits.SYNC = 0b00000;// No external synchronization; timer rolls over at FFFFh or matches with the Timer Period register
     CCP4CON1Lbits.TMRSYNC = 0;   // Set timebase synchronization (Synchronized)
     CCP4CON1Lbits.CLKSEL = 0b000;// Set the clock source (Tcy)
-    CCP4CON1Lbits.TMRPS = 0b11;  // Set the clock pre-scaler (1:64)
+    CCP4CON1Lbits.TMRPS = 0b00;  // Set the clock pre-scaler (1:64)
     CCP4CON1Hbits.TRIGEN = 0;    // Set Sync/Triggered mode (Synchronous)
     
     CCP4TMRL = 0x0000;           // Initialize timer prior to enable module.

@@ -73,20 +73,21 @@ MCAPP_DATA_T     mcappData;
  *****************************************************************************/
 int main(void)
 {
-    InitPeripherals();
+    HAL_SystemInitialize();
 	DiagnosticsInit();
-    BoardServiceInit();
+    HAL_BoardServiceInit();
     mcappData.state = MCAPP_INIT;
+    HAL_MC1HallStateChangeTimerPrescalerSet(SPEED_MEASURE_TIMER_PRESCALER);
     HAL_MC1HallStateChangeMaxPeriodSet(SPEED_MULTI);
-    
+    HAL_MC1HallStateChangeTimerStart();
     LED1 = 1;
         
 	while(1)
 	{
         DiagnosticsStepMain();
-        BoardService();
+        HAL_BoardService();
 
-        if(IsPressed_Button1())
+        if(HAL_IsPressed_Button1())
         {
             if(mcappData.runCmd == 0)
             {
@@ -99,12 +100,10 @@ int main(void)
                 LED2 = 0;
             }
         }
-        #ifdef MCLV2
-        if(IsPressed_Button2() && mcappData.changeDirection == 0)
+        if(HAL_IsPressed_Button2() && mcappData.changeDirection == 0)
         {
             mcappData.changeDirection = 1;
-        }
-        #endif            
+        }            
     }
 }
 /******************************************************************************
@@ -141,7 +140,7 @@ void MCAPP_LoadSwitchingTable()
  *****************************************************************************/
 void MCAPP_CheckHallUpdatePWM(void)
 {
-    mcappData.sector = HAL_HallValueRead();
+    mcappData.sector = HAL_MC1HallValueRead();
     if((mcappData.sector >=1) && (mcappData.sector <= 6))
     {
         //set PWM overdrive to the corresponding PWM channel
@@ -155,7 +154,7 @@ void MCAPP_CheckHallUpdatePWM(void)
  *              the potentiometer voltage, Bus Current are read. It services
  *              the X2C Scope ISR, The MCAPP_StateMachine routines as well.
  *****************************************************************************/
-void __attribute__((__interrupt__,no_auto_psv)) _ADCAN19Interrupt()
+void __attribute__((__interrupt__,no_auto_psv)) HAL_MC1ADCInterrupt()
 {
     DiagnosticsStepIsr();
 /**  Routine to read the potentiometer value and the bus current value */    
@@ -163,15 +162,15 @@ void __attribute__((__interrupt__,no_auto_psv)) _ADCAN19Interrupt()
 /**  Routine to run the Motor Control State Machine */    
     MCAPP_StateMachine();
 
-    BoardServiceStepIsr();          
-    ADC_AN19InterruptFlagClear();
+    HAL_BoardServiceStepIsr();          
+    HAL_MC1ADCInterruptFlagClear();
 }
 /******************************************************************************
  * Description: The CND Interrupt is serviced at every hall signal transition. 
  *              This enables to calculate the speed based on the time taken for
  *              360 degree electrical rotation.
  *****************************************************************************/
-void __attribute__((interrupt, no_auto_psv)) _CNDInterrupt ()
+void __attribute__((interrupt, no_auto_psv)) HAL_MC1HallStateChangeInterrupt ()
 {
     MCAPP_CheckHallUpdatePWM();
 
@@ -186,7 +185,7 @@ void __attribute__((interrupt, no_auto_psv)) _CNDInterrupt ()
         MCAPP_CalcMovingAvgSpeed(mcappData.calculateSpeed.speedValue);        
     }
 
-    CN_InterruptPortDFlagClear();
+    HAL_MC1HallStateChangeInterruptFlagClear();
 }
 /******************************************************************************
  * Description: The MCAPP_StateMachine describes the code flow and controls the
@@ -222,7 +221,7 @@ void MCAPP_StateMachine(void)
                 
                 mcappData.runMotor = 1; 
                 
-                CN_PortDEnable();
+                HAL_MC1HallStateChangeDetectionEnable();
                 mcappData.state = MCAPP_RUN;
             }
             
