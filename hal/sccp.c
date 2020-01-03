@@ -96,7 +96,7 @@ void Init_SCCP4(void)
     CCP4TMRL = 0x0000;           // Initialize timer prior to enable module.
     CCP4TMRH = 0x0000;           // Initialize timer prior to enable module.
    
-    IPC10bits.CCT4IP = 4;        // Interrupt Priority set
+    IPC10bits.CCT4IP = 6;        // Interrupt Priority set
     IFS2bits.CCT4IF = 0;         // Clear Interrupt flag
     IEC2bits.CCT4IE = 0;         // Disable Interrupt
     CCP4CON1Lbits.CCPON = 0;     // Disable CCP/input capture

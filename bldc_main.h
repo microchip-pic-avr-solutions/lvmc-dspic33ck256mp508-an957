@@ -94,7 +94,8 @@ extern "C" {
 // ***************************************************************************** 
 /** Constants for Mathematical Computation */
 #define TICKS            FCY/(SPEED_MEASURE_TIMER_PRESCALER)
-    
+//Timer count pre division for speed calculation
+#define TimerCountPrescaler   6 //2^6 = 64
 /**  SPEED MULTIPLIER CALCULATION = ((FCY*60)/(TIMER_PRESCALER*POLEPAIRS))  */
 #define SPEED_MULTI     (unsigned long)(((float)FCY/(float)(SPEED_MEASURE_TIMER_PRESCALER*POLEPAIRS))*(float)60)
     
@@ -173,6 +174,7 @@ typedef struct
     uint32_t  timerPrev;
     uint32_t  timeIntervalMax;
     uint16_t  speedValue;
+    uint16_t timerDeltaPreScaler;
 } MCAPP_SPEED_CALC_T;
 
 typedef struct

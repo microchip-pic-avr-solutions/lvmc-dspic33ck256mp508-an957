@@ -205,10 +205,12 @@ void MCAPP_StateMachine(void)
             mcappData.dutyCycle = START_DUTY;
             mcappData.timerValue = 0;
             mcappData.sector = 0;
+            mcappData.calculateSpeed.timerDeltaPreScaler = TimerCountPrescaler;
             mcappData.calculateSpeed.speedValue = 0;
             MCAPP_InitControlParameters();
             MCAPP_InitMovingAvgCurrent();        //Routine to Initialize the Moving Average Filter Block
-            MCAPP_InitMovingAvgSpeed();            
+            MCAPP_InitMovingAvgSpeed();     
+            HAL_MC1HallStateChangeDetectionEnable();
             mcappData.state = MCAPP_CMD_WAIT;
             
         break;
@@ -422,7 +424,16 @@ void MCAPP_SpeedCalculate(uint32_t speedValue)
     
     if(mcappData.calculateSpeed.timerDelta != 0)
     {
-        mcappData.calculateSpeed.speedValue = (int16_t)(__builtin_divud(SPEED_MULTI, mcappData.calculateSpeed.timerDelta));
+        if(mcappData.calculateSpeed.timerDelta >= 30000)
+        {
+            mcappData.calculateSpeed.timerDelta  = mcappData.calculateSpeed.timerDelta>>mcappData.calculateSpeed.timerDeltaPreScaler;   
+            mcappData.calculateSpeed.speedValue = (int16_t)(__builtin_divud(SPEED_MULTI, mcappData.calculateSpeed.timerDelta));
+            mcappData.calculateSpeed.speedValue = mcappData.calculateSpeed.speedValue>>mcappData.calculateSpeed.timerDeltaPreScaler;   
+        }
+        else
+        {    
+            mcappData.calculateSpeed.speedValue = (int16_t)(__builtin_divud(SPEED_MULTI, mcappData.calculateSpeed.timerDelta));
+        }
     }
 }
 /******************************************************************************
