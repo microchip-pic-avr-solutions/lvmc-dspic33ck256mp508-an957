@@ -105,10 +105,10 @@ extern "C" {
 //******************************************************************************
 /** Velocity Control Loop Coefficients */    
 #define SPEEDCNTR_PTERM        Q15(0.1)
-#define SPEEDCNTR_ITERM        Q15(0.001)
+#define SPEEDCNTR_ITERM        Q15(0.01)
 #define SPEEDCNTR_CTERM        Q15(0.999)
 #define SPEEDCNTR_OUTMAX       Q15(0.999)
-#define SPEEDCNTR_OUTMIN       Q15(0.15)
+#define SPEEDCNTR_OUTMIN       Q15(0.0)
 
 /** Current Control Loop Coefficients */
 #define CURRCNTR_PTERM         Q15(0.02)

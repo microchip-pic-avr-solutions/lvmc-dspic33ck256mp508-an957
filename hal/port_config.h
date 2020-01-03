@@ -82,6 +82,8 @@
 // LED1(LD10) : (RE6)
 #define LED1                    LATEbits.LATE6
         
+/*define to measure Ibus using Internal OP-AMP, undef to measure Ibus using external OP AMP*/    
+#define INTERNAL_OPAMP_CONFIG                 
 // *****************************************************************************
 // *****************************************************************************
 // Section: Functions

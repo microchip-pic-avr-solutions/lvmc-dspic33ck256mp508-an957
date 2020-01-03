@@ -166,6 +166,21 @@ void MapGPIOHWFunction(void)
     ANSELAbits.ANSELA4 = 1;
     TRISAbits.TRISA4 = 1;   //OA3OUT/AN4/CMP3B/IBIAS3/RA4
     
+    #ifdef INTERNAL_OPAMP_CONFIG
+        //Ibus- 
+    ANSELCbits.ANSELC1 = 1;
+    TRISCbits.TRISC1 = 1;   //Pin 43: PGD2/OA2IN-/AN8/RP35/RB3
+    
+    //Ibus+ 
+    ANSELCbits.ANSELC2 = 1;
+    TRISCbits.TRISC2 = 1;   //Pin 45: PGC2/OA2IN+/RP36/RB4
+    
+    AMPCON1Hbits.NCHDIS3 = 0;    //Wide input range for Op Amp #3
+    AMPCON1Lbits.AMPEN3 = 1;     //Enables Op Amp #3
+    
+    AMPCON1Lbits.AMPON = 1;      //Enables op amp modules if their respective AMPENx bits are also asserted
+     
+    #endif
     // Potentiometer  input - used as Speed Reference
     // POT1 
     ANSELBbits.ANSELB9 = 1;
@@ -175,13 +190,6 @@ void MapGPIOHWFunction(void)
     // VBUS 
     ANSELCbits.ANSELC3 = 1;
     TRISCbits.TRISC3 = 1;   // PIN33: AN15/CMP2A/IBIAS2/RP51/PMD11/PMA11/RC3
-    
-
-    /* Amplifier Configuration */
-    AMPCON1Hbits.NCHDIS3 = 0;    //Wide input range for Op Amp #3
-    AMPCON1Lbits.AMPEN3 = 0;     //Enables Op Amp #3
-    
-    AMPCON1Lbits.AMPON = 0;      //Enables op amp modules if their respective AMPENx bits are also asserted
     
     /* Digital SIGNALS */   
     // DIGITAL INPUT/OUTPUT PINS
