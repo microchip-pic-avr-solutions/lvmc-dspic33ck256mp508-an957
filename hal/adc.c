@@ -8,8 +8,9 @@
     This file includes subroutine for initializing ADC Cores of Controller.
 
   Description:
-    Definitions in the file are for dsPIC33CK256MP508 External OP-AMP PIM
-    plugged onto Motor Control Development board from Microchip.
+    Definitions in the file are for dsPIC33CK256MP508 on Motor Control 
+    Development board from Microchip
+
 *******************************************************************************/
 /*******************************************************************************
 * Copyright (c) 2019 released Microchip Technology Inc.  All rights reserved.
@@ -122,7 +123,7 @@ void Init_ADC(void)
        These bits specify the number of shared ADC Core Clock Periods (TADCORE) 
        for the shared ADC core sample time.
        Ranges from 2 to 1025 TADCORE
-       if SHRSAMC = 8 ,then Sampling time is 9 TADCORE */
+       if SHRSAMC = 15 ,then Sampling time is 17 TADCORE */
     ADCON2Hbits.SHRSAMC = 15;
 
     ADCON3L  = 0;
@@ -146,7 +147,7 @@ void Init_ADC(void)
     /* Shared ADC Core is Disabled prior to configuration */
     ADCON3Hbits.SHREN = 0;
     /* ADC Module Clock Source Selection bits 
-       0b11 = APLL;0b10 = FRC ;0b01 = FOSC ; 0b00 = FSYS (System Clock) */
+       0b11 = FVCO/4;0b10 = AFVCODIV ;0b01 = FOSC ; 0b00 = FP(Peripheral Clock) */
     ADCON3Hbits.CLKSEL = 0;
     /* ADC Module Clock Source Divider bits (1 to 64)
        The divider forms a TCORESRC clock used by all ADC cores (shared and 
@@ -180,8 +181,8 @@ void Init_ADC(void)
        These bits determine the time between the trigger event and 
        the start of conversion in the number of the Core Clock Periods (TADCORE)
        Ranges from 2 to 1025 TADCORE
-       if SHRSAMC = 8 ,then Sampling time is 9 TADCORE */
-    ADCORE0Lbits.SAMC = 8;
+       if SHRSAMC = 15 ,then Sampling time is 17 TADCORE */
+    ADCORE0Lbits.SAMC = 15;
     /* Initialize DEDICATED ADC CORE 0 CONTROL REGISTER HIGH */
     ADCORE0H     = 0x0000;
     /* Dedicated ADC Core 0 Input Clock Divider bits
@@ -204,8 +205,8 @@ void Init_ADC(void)
     These bits determine the time between the trigger event and 
     the start of conversion in the number of the Core Clock Periods (TADCORE)
     Ranges from 2 to 1025 TADCORE
-    if SHRSAMC = 8 ,then Sampling time is 9 TADCORE */
-    ADCORE1Lbits.SAMC = 8;
+    if SHRSAMC = 15 ,then Sampling time is 17 TADCORE */
+    ADCORE1Lbits.SAMC = 15;
     /* Initialize DEDICATED ADC CORE 1 CONTROL REGISTER HIGH */
     ADCORE1H     = 0x0000;
     /* Dedicated ADC Core 1 Input Clock Divider bits
@@ -296,17 +297,18 @@ void Init_ADC(void)
     
    
     /* Trigger Source Selection for Corresponding Analog Inputs bits 
-        00100 = Slave PMW1 Trigger 1
+     *  00101 = PMW1 Trigger 2
+        00100 = PMW1 Trigger 1
         00001 = Common software trigger
         00000 = No trigger is enabled  */
     
-    /* Trigger Source for Analog Input #19  = 0b0100 */
     
+    /* Trigger Source for Analog Input #15  = 0b0100 */
     ADTRIG3Hbits.TRGSRC15 = 0x4;
-    
+    /* Trigger Source for Analog Input #11  = 0b0100 */
     ADTRIG2Hbits.TRGSRC11 = 0x4;
 
-        /* Trigger Source for Analog Input #15  = 0b0100 */
+    /* Trigger Source for Analog Input #4  = 0b0100 */    
     ADTRIG1Lbits.TRGSRC4 = 0x4;
 
 }

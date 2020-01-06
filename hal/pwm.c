@@ -9,8 +9,9 @@
     Fine Edge Placement.
 
   Description:
-    Definitions in the file are for dsPIC33CK256MP508 External OP-AMP PIM
-    plugged onto Motor Control Development board from Microchip.
+    Definitions in the file are for dsPIC33CK256MP508 on Motor Control 
+    Development board from Microchip
+
 *******************************************************************************/
 /*******************************************************************************
 * Copyright (c) 2019 released Microchip Technology Inc.  All rights reserved.
@@ -98,7 +99,7 @@ void PWM_Initialize(void)
        0b11 = 1:16 ; 0b10 = 1:8 ;0b01 = 1:4 ; 0b00 = 1:2*/
     PCLKCONbits.DIVSEL = 0;
     /* PWM Master Clock Selection bits
-       0b11 = FOSC ; 0b10 = APLL/6 ; 0b01 = PLL ; 0b00 = APLL */
+       0b11 = AFPLLO ; 0b10 = FPLLO ; 0b01 = AFVCO/2 ; 0b00 = FOSC */
     PCLKCONbits.MCLKSEL = 0;
     /* Lock bit: 0 = Write-protected registers and bits are unlocked   */
     PCLKCONbits.LOCK = 0;
@@ -132,17 +133,17 @@ void PWM_Initialize(void)
     LOGCONE     = 0x0000;
     /* Initialize LOGIC CONTROL REGISTER 3 High */
     LOGCONF     = 0x0000;
-    /* Initialize LOGIC CONTROL REGISTER 1 LOW */
-    PWMEVTA     = 0x0000;    
-    /* Initialize LOGIC CONTROL REGISTER 1 HIGH */
+    /* PWM EVENT OUTPUT CONTROL REGISTER A */
+    PWMEVTA     = 0x0000;     
+    /* PWM EVENT OUTPUT CONTROL REGISTER B */
     PWMEVTB     = 0x0000;
-    /* Initialize LOGIC CONTROL REGISTER 2 LOW */
+    /* PWM EVENT OUTPUT CONTROL REGISTER C */
     PWMEVTC     = 0x0000;
-    /* Initialize LOGIC CONTROL REGISTER 2 HIGh */
+    /* PWM EVENT OUTPUT CONTROL REGISTER D */
     PWMEVTD     = 0x0000;
-    /* Initialize LOGIC CONTROL REGISTER 3 LOW */
+    /* PWM EVENT OUTPUT CONTROL REGISTER E */
     PWMEVTE     = 0x0000;
-    /* Initialize LOGIC CONTROL REGISTER 3 HIGH */
+    /* PWM EVENT OUTPUT CONTROL REGISTER F */
     PWMEVTF     = 0x0000;
     
     PWM_PG1Initialize();
@@ -155,11 +156,7 @@ void PWM_Initialize(void)
     IFS4bits.PWM1IF = 0;
     IEC4bits.PWM1IE = 0;
     IPC16bits.PWM1IP = 5;
-    
-//    PG1IOCONL = 0x3000;
-//    PG2IOCONL = 0x3000;
-//    PG4IOCONL = 0x3000;
-	
+    	
 	PG1CONLbits.ON = 1;      // Enable PWM module after initializing generators
     PG2CONLbits.ON = 1;      // Enable PWM module after initializing generators
     PG4CONLbits.ON = 1;      // Enable PWM module after initializing generators
@@ -366,11 +363,11 @@ void PWM_PG1Initialize(void)
            ADC Trigger 1 */
     PG1EVTLbits.ADTR1EN3  = 0;
     /* ADC Trigger 1 Source is PG1TRIGB Compare Event Enable bit
-       0 = PG1TRIGC register compare event is disabled as trigger source for 
+       0 = PG1TRIGB register compare event is disabled as trigger source for 
            ADC Trigger 1 */
     PG1EVTLbits.ADTR1EN2 = 0;
     /* ADC Trigger 1 Source is PG1TRIGA Compare Event Enable bit
-       1 = PG1TRIGC register compare event is enabled as trigger source for 
+       1 = PG1TRIGA register compare event is enabled as trigger source for 
            ADC Trigger 1 */
     PG1EVTLbits.ADTR1EN1 = 1;
     /* Update Trigger Select bits
@@ -405,11 +402,11 @@ void PWM_PG1Initialize(void)
            trigger source for ADC Trigger 2 */
     PG1EVTHbits.ADTR2EN3 = 0;
     /* ADC Trigger 2 Source is PG1TRIGB Compare Event Enable bit
-       0 = PG1TRIGC register compare event is disabled as 
+       0 = PG1TRIGB register compare event is disabled as 
            trigger source for ADC Trigger 2 */
     PG1EVTHbits.ADTR2EN2 = 0;
     /* ADC Trigger 2 Source is PG1TRIGA Compare Event Enable bit
-       0 = PG1TRIGC register compare event is disabled as 
+       0 = PG1TRIGA register compare event is disabled as 
            trigger source for ADC Trigger 2 */
     PG1EVTHbits.ADTR2EN1 = 0;
     /* ADC Trigger 1 Offset Selection bits
@@ -448,8 +445,8 @@ void PWM_PG1Initialize(void)
        1 = PCI source is synchronized to PWM EOC
        0 = PCI source is not synchronized to PWM EOC*/
     PG1FPCILbits.PSYNC = 0;
-    /* PCI Polarity Select bit 1 = Inverted 0 = Not inverted*/
-    PG1FPCILbits.PPS = 1;
+    /* PCI Polarity Select bit 0 = Not inverted 1 = Inverted */
+    PG1FPCILbits.PPS = 0;
     /* PCI Source Selection bits
        11111 = PCI Source #31
        ? ?
@@ -755,11 +752,11 @@ void PWM_PG2Initialize(void)
            ADC Trigger 1 */
     PG2EVTLbits.ADTR1EN3  = 0;
     /* ADC Trigger 1 Source is PG2TRIGB Compare Event Enable bit
-       0 = PG2TRIGC register compare event is disabled as trigger source for 
+       0 = PG2TRIGB register compare event is disabled as trigger source for 
            ADC Trigger 1 */
     PG2EVTLbits.ADTR1EN2 = 0;
     /* ADC Trigger 1 Source is PG2TRIGA Compare Event Enable bit
-       0 = PG2TRIGC register compare event is disabled as trigger source for 
+       0 = PG2TRIGA register compare event is disabled as trigger source for 
            ADC Trigger 1 */
     PG2EVTLbits.ADTR1EN1 = 0;
     /* Update Trigger Select bits
@@ -794,11 +791,11 @@ void PWM_PG2Initialize(void)
            trigger source for ADC Trigger 2 */
     PG2EVTHbits.ADTR2EN3 = 0;
     /* ADC Trigger 2 Source is PG2TRIGB Compare Event Enable bit
-       0 = PG2TRIGC register compare event is disabled as 
+       0 = PG2TRIGB register compare event is disabled as 
            trigger source for ADC Trigger 2 */
     PG2EVTHbits.ADTR2EN2 = 0;
     /* ADC Trigger 2 Source is PG2TRIGA Compare Event Enable bit
-       0 = PG2TRIGC register compare event is disabled as 
+       0 = PG2TRIGA register compare event is disabled as 
            trigger source for ADC Trigger 2 */
     PG2EVTHbits.ADTR2EN1 = 0;
     /* ADC Trigger 1 Offset Selection bits
@@ -821,7 +818,7 @@ void PWM_PG2Initialize(void)
        001 = Auto-Terminate: Terminate when PCI source transitions from 
              active to inactive */
     PG2FPCILbits.TERM = 0;
-    /* Acceptance Qualifier Polarity Select bit: 0 = Inverted 1 = Not inverted*/
+    /* Acceptance Qualifier Polarity Select bit: 0 = Not inverted 1 = Inverted*/
     PG2FPCILbits.AQPS = 0;
     /* Acceptance Qualifier Source Selection bits
        111 = SWPCI control bit only (qualifier forced to 0)
@@ -837,8 +834,8 @@ void PWM_PG2Initialize(void)
        1 = PCI source is synchronized to PWM EOC
        0 = PCI source is not synchronized to PWM EOC*/
     PG2FPCILbits.PSYNC = 0;
-    /* PCI Polarity Select bit 1 = Inverted 0 = Not inverted*/
-    PG2FPCILbits.PPS = 1;
+    /* PCI Polarity Select bit 0 = Not inverted 1 = Inverted*/
+    PG2FPCILbits.PPS = 0;
     /* PCI Source Selection bits
        11111 = PCI Source #31
        ? ?
@@ -1144,11 +1141,11 @@ void PWM_PG4Initialize(void)
            ADC Trigger 1 */
     PG4EVTLbits.ADTR1EN3  = 0;
     /* ADC Trigger 1 Source is PG4TRIGB Compare Event Enable bit
-       0 = PG4TRIGC register compare event is disabled as trigger source for 
+       0 = PG4TRIGB register compare event is disabled as trigger source for 
            ADC Trigger 1 */
     PG4EVTLbits.ADTR1EN2 = 0;
     /* ADC Trigger 1 Source is PG4TRIGA Compare Event Enable bit
-       0 = PG4TRIGC register compare event is disabled as trigger source for 
+       0 = PG4TRIGA register compare event is disabled as trigger source for 
            ADC Trigger 1 */
     PG4EVTLbits.ADTR1EN1 = 0;
     /* Update Trigger Select bits
@@ -1183,11 +1180,11 @@ void PWM_PG4Initialize(void)
            trigger source for ADC Trigger 2 */
     PG4EVTHbits.ADTR2EN3 = 0;
     /* ADC Trigger 2 Source is PG4TRIGB Compare Event Enable bit
-       0 = PG4TRIGC register compare event is disabled as 
+       0 = PG4TRIGB register compare event is disabled as 
            trigger source for ADC Trigger 2 */
     PG4EVTHbits.ADTR2EN2 = 0;
     /* ADC Trigger 2 Source is PG4TRIGA Compare Event Enable bit
-       0 = PG4TRIGC register compare event is disabled as 
+       0 = PG4TRIGA register compare event is disabled as 
            trigger source for ADC Trigger 2 */
     PG4EVTHbits.ADTR2EN1 = 0;
     /* ADC Trigger 1 Offset Selection bits
@@ -1210,7 +1207,7 @@ void PWM_PG4Initialize(void)
        001 = Auto-Terminate: Terminate when PCI source transitions from 
              active to inactive */
     PG4FPCILbits.TERM = 0;
-    /* Acceptance Qualifier Polarity Select bit: 0 = Inverted 1 = Not inverted*/
+    /* Acceptance Qualifier Polarity Select bit: 0 = Not inverted 1 = Inverted*/
     PG4FPCILbits.AQPS = 0;
     /* Acceptance Qualifier Source Selection bits
        111 = SWPCI control bit only (qualifier forced to 0)
@@ -1226,8 +1223,8 @@ void PWM_PG4Initialize(void)
        1 = PCI source is synchronized to PWM EOC
        0 = PCI source is not synchronized to PWM EOC*/
     PG4FPCILbits.PSYNC = 0;
-    /*3 PCI Polarity Select bit 1 = Inverted 0 = Not inverted*/
-    PG4FPCILbits.PPS = 1;
+    /* PCI Polarity Select bit 0 = Not inverted 1 = Inverted*/
+    PG4FPCILbits.PPS = 0;
     /* PCI Source Selection bits
        11111 = PCI Source #31
        ? ?

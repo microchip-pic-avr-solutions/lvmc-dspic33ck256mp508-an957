@@ -10,8 +10,9 @@
     pins.
 
   Description:
-    Definitions in the file are for dsPIC33CK256MP508 External OP-AMP PIM
-    plugged onto Motor Control Development board from Microchip.
+    Definitions in the file are for dsPIC33CK256MP508 on Motor Control 
+    Development board from Microchip
+
 *******************************************************************************/
 /*******************************************************************************
 * Copyright (c) 2019 released Microchip Technology Inc.  All rights reserved.

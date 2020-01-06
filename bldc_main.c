@@ -260,7 +260,7 @@ void MCAPP_StateMachine(void)
 
             #ifdef   SPEED_PI_CLOSEDLOOP   
             mcappData.desiredSpeed = (int16_t) (__builtin_mulss(MAX_MOTORSPEED, mcappData.analogInputs.measurePot) >> 15);
-            mcappData.piInputSpeed.inMeasure = mcappData.calculateSpeed.speedValue;//mcappData.movingAvgFilterSpeed.avg;
+            mcappData.piInputSpeed.inMeasure = mcappData.calculateSpeed.speedValue;
             mcappData.piInputSpeed.inReference = mcappData.desiredSpeed;
             MC_ControllerPIUpdate_Assembly(mcappData.piInputSpeed.inReference,
                                            mcappData.piInputSpeed.inMeasure,
