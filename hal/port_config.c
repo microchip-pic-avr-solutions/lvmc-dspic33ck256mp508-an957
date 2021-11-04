@@ -170,11 +170,11 @@ void MapGPIOHWFunction(void)
     #ifdef INTERNAL_OPAMP_CONFIG
         //Ibus- 
     ANSELCbits.ANSELC1 = 1;
-    TRISCbits.TRISC1 = 1;   //Pin 43: PGD2/OA2IN-/AN8/RP35/RB3
+    TRISCbits.TRISC1 = 1;   //Pin:28 OA3IN-/AN13/CMP1B/ISRC0/RP49/PMA7/RC1
     
     //Ibus+ 
     ANSELCbits.ANSELC2 = 1;
-    TRISCbits.TRISC2 = 1;   //Pin 45: PGC2/OA2IN+/RP36/RB4
+    TRISCbits.TRISC2 = 1;   //Pin 29 :OA3IN+/AN14/CMP2B/ISRC1/RP50/PMD13/PMA13/RC2
     
     AMPCON1Hbits.NCHDIS3 = 0;    //Wide input range for Op Amp #3
     AMPCON1Lbits.AMPEN3 = 1;     //Enables Op Amp #3
