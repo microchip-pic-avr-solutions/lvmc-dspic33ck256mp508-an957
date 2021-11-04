@@ -68,10 +68,6 @@
 // Section: Constants
 // *****************************************************************************
 // *****************************************************************************
-// MC PWM MODULE Related Definitions
-#define INVERTERA_PWM_PDC1      PG1DC
-#define INVERTERA_PWM_PDC2      PG2DC
-#define INVERTERA_PWM_PDC3      PG4DC
         
 #define START_DUTY       MPER>>2     
 #define MIN_DUTY         0
