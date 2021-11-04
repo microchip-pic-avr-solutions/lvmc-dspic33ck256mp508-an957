@@ -125,9 +125,10 @@ extern "C" {
     
 // *****************************************************************************      
 /** Inverter Switching Array Index Table */
-const unsigned int PWM_STATE1_CLKW[8]	=	{0x3000,0x1000,0x3000,0x1000,0x2000,0x3000,0x2000,0x3000};
+/*STATE3 and STATE1 swapped in order to achieve standard wire connection at Motor Terminal*/
+const unsigned int PWM_STATE3_CLKW[8]	=	{0x3000,0x1000,0x3000,0x1000,0x2000,0x3000,0x2000,0x3000};
 const unsigned int PWM_STATE2_CLKW[8]	=	{0x3000,0x3000,0x2000,0x2000,0x1000,0x1000,0x3000,0x3000};
-const unsigned int PWM_STATE3_CLKW[8]	=	{0x3000,0x2000,0x1000,0x3000,0x3000,0x2000,0x1000,0x3000};
+const unsigned int PWM_STATE1_CLKW[8]	=	{0x3000,0x2000,0x1000,0x3000,0x3000,0x2000,0x1000,0x3000};
 
 unsigned int PWM_STATE1[8];
 unsigned int PWM_STATE2[8];
