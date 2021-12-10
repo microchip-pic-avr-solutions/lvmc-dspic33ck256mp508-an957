@@ -1,0 +1,4 @@
+[submodule "lvmc-dspic33ck256mp508-an957/bldc.X/library-x2cscope"]
+	path = lvmc-dspic33ck256mp508-an957/bldc.X/library-x2cscope
+	url = https://bitbucket.microchip.com/scm/mcu16ce/library-x2cscope.git
+	branch = tag-2.2.0
