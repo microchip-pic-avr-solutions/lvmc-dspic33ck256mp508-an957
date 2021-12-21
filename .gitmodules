@@ -1,0 +1,4 @@
+[submodule "lvmc-dspic33ck256mp508-an957/bldc.X/library-x2cscope"]
+	path = lvmc-dspic33ck256mp508-an957/bldc.X/library-x2cscope
+	url = https://github.com/microchip-pic-avr-solutions/library-x2cscope
+	branch = master
