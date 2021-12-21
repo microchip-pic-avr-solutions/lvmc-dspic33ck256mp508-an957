@@ -1,8 +1,0 @@
-[submodule "bldc.X/library-motor"]
-	path = bldc.X/library-motor
-	url = https://github.com/microchip-pic-avr-solutions/library-motor
-	branch = master
-[submodule "bldc.X/library-x2cscope"]
-	path = bldc.X/library-x2cscope
-	url = https://github.com/microchip-pic-avr-solutions/library-x2cscope
-	branch = master
