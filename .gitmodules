@@ -1,8 +1,8 @@
-[submodule "lvmc-dspic33ck256mp508-an957/bldc.X/library-x2cscope"]
-	path = lvmc-dspic33ck256mp508-an957/bldc.X/library-x2cscope
-	url = https://bitbucket.microchip.com/scm/mcu16ce/library-x2cscope.git
-	branch = tag-2.2.0
-[submodule "lvmc-dspic33ck256mp508-an957/bldc.X/library-motor"]
-	path = lvmc-dspic33ck256mp508-an957/bldc.X/library-motor
-	url = https://bitbucket.microchip.com/scm/mcu16ce/library-motor.git
-	branch = motor_lib-124
+[submodule "bldc.X/library-motor"]
+	path = bldc.X/library-motor
+	url = https://github.com/microchip-pic-avr-solutions/library-motor
+	branch = master
+[submodule "bldc.X/library-x2cscope"]
+	path = bldc.X/library-x2cscope
+	url = https://github.com/microchip-pic-avr-solutions/library-x2cscope
+	branch = master
