@@ -4,21 +4,21 @@
    "content":{
       "metaDataVersion":"1.0.0",
       "name":"com.microchip.mplabx.project.lvmc-dspic33ck256mp508-an957",
-      "version":"x.x.x",
-      "displayName":"xxxxxxxxxxxxxxx",
+      "version":"1.0.0",
+      "displayName":"AN957 dspic33ck256mp508 LVMC",
       "projectName":"lvmc-dspic33ck256mp508-an957",
-      "shortDescription":"xxxxxxxxxxxxxxx",
+      "shortDescription":"Hall Sensor based control of BLDC motor",
       "ide":{
          "name":"MPLABX",
          "semverRange":">=5.40.0"
       },
       "compiler":{
          "name":"XC16",
-         "semverRange":"^1.50.0"
+         "semverRange":">=1.50.0"
       },
       "dfp":{
-         "name":"xxxxxxxxxxxxxxx",
-         "semverRange":">=x.x.x"
+         "name":"dsPIC33CK-MP_DFP",
+         "semverRange":">=1.6.176"
       },
 	  "configurator": {
          "name": "MCC",
@@ -30,16 +30,19 @@
          "content":{
             "metaDataVersion":"1.0.0",
             "category":"com.microchip.device",
-            "name":"xxxxxxxxxxxxxxx",
+            "name":"dsPIC33CK256MP508",
             "versionRange":"*"
          }
       },
 	  "peripherals":[
-         "GPIO",
+         "ADC",
+		 "PWM",
+		 "TIMER"
       ],
       "keywords":[
-         "GPIO",
-         "UART"
+         "Motor Control and Drive",
+         "Motor Control",
+		 "Brushless DC Motors"
       ]
    }
 }
