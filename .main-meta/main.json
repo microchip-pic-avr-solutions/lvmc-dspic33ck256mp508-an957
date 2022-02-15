@@ -42,7 +42,9 @@
       "keywords":[
          "Motor Control and Drive",
          "Motor Control",
-		 "Brushless DC Motors"
+		 "Brushless DC Motors",
+		 "Trapezoidal Control",
+		 "Hall Sensor"
       ]
    }
 }
