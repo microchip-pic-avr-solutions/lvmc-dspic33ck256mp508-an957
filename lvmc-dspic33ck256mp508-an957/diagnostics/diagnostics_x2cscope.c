@@ -41,7 +41,7 @@
 *
 *******************************************************************************/
 
-#include "../bldc.X/library-x2cscope/X2CScope.h"
+#include "../library/library-x2cscope/X2CScope.h"
 #include "uart1.h"
 #include <stdint.h>
 
