@@ -33,7 +33,7 @@ pipeline {
         DEPLOY_BRANCH_LIST = "master"
 		/*When using the main.json schema version 1.3.0 or higher, the PORTAL will first reject registration attempt when an unapproved keyword is found, but can be forced to accept.
           This argument is used to provide the list of unapproved keywords (also listed in main.json) which the deployment script will force the PORTAL to accept.*/
-        UNAPPROVED_KEYWORDS_OVERRIDE_LIST="Motor Control and Drive,Brushless DC Motors,Trapezoidal Control,Hall Sensor"
+        UNAPPROVED_KEYWORDS_OVERRIDE_LIST="Trapezoidal Control,Hall Sensor"
         
         /*
         
@@ -110,24 +110,6 @@ pipeline {
                 }
             }
         } 
-        
-        // Creating tag in Bitbucket repo
-        stage('Bitbucket Tag Creation') {
-            when {
-                anyOf {
-                    allOf {
-                        not { changeRequest() }
-                        anyOf {branch 'master';}
-                    }
-                }
-            }
-            
-            steps {
-               script {
-                    bitbucketTagCreation()
-                }
-            }
-        }
         
         stage('Doxygen files generation') {
             when {
