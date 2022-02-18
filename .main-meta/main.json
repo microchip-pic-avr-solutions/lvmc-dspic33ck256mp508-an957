@@ -40,9 +40,8 @@
 		 "TIMER"
       ],
       "keywords":[
-         "Motor Control and Drive",
          "Motor Control",
-		 "Brushless DC Motors",
+		 "BLDC",
 		 "Trapezoidal Control",
 		 "Hall Sensor"
       ]
