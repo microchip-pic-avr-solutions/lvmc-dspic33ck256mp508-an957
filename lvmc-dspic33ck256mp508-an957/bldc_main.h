@@ -63,8 +63,8 @@ extern "C" {
 #include "clock.h"  
 #include "timer.h"
 #include "port_config.h"
-#include "library/library-motor/motor_control_types.h"
-#include "library/library-motor/motor_control_declarations.h"
+#include "motor_control_types.h"
+#include "motor_control_declarations.h"
 // *****************************************************************************
 // *****************************************************************************
 // Section: MODE OF OPERATION
