@@ -4,17 +4,17 @@
    "content":{
       "metaDataVersion":"1.3.0",
       "name":"com.microchip.mplabx.project.lvmc-dspic33ck256mp508-an957",
-      "version":"1.0.0",
-      "displayName":"AN957 dspic33ck256mp508 LVMC",
+      "version":"1.0.1",
+      "displayName":"AN957 dsPIC33CK256MP508 LVMC",
       "projectName":"lvmc-dspic33ck256mp508-an957",
       "shortDescription":"Hall Sensor based control of BLDC motor",
       "ide":{
          "name":"MPLABX",
-         "semverRange":">=5.40.0"
+         "semverRange":">=6.10.0"
       },
       "compiler":{
          "name":"XC16",
-         "semverRange":">=1.50.0"
+         "semverRange":">=2.00.0"
       },
       "dfp":{
          "name":"dsPIC33CK-MP_DFP",
