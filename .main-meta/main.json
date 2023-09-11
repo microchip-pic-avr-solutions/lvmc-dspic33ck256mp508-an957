@@ -43,7 +43,7 @@
          "Motor Control",
 		 "BLDC",
 		 "Trapezoidal Control",
-		 "Hall Sensor"
+		 "Hall Sensor",
 		 "dsPIC"
       ]
    }
