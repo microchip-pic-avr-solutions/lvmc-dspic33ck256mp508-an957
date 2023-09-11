@@ -10,15 +10,15 @@
       "shortDescription":"Hall Sensor based control of BLDC motor",
       "ide":{
          "name":"MPLABX",
-         "semverRange":">=6.10.0"
+         "semverRange":">=6.10"
       },
       "compiler":{
          "name":"XC16",
-         "semverRange":">=2.00.0"
+         "semverRange":">=2.10"
       },
       "dfp":{
          "name":"dsPIC33CK-MP_DFP",
-         "semverRange":">=1.6.176"
+         "semverRange":"=1.11.346"
       },
 	  "configurator": {
          "name": "MCC",
@@ -43,7 +43,8 @@
          "Motor Control",
 		 "BLDC",
 		 "Trapezoidal Control",
-		 "Hall Sensor"
+		 "Hall Sensor",
+		 "dsPIC"
       ]
    }
 }
