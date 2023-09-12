@@ -7,7 +7,7 @@
       "version":"1.0.1",
       "displayName":"AN957 dsPIC33CK256MP508 LVMC",
       "projectName":"lvmc-dspic33ck256mp508-an957",
-      "shortDescription":"Hall Sensor based control of BLDC motor",
+      "shortDescription":"Control of BLDC Motor using six-step commutation with Hall Sensor",
       "ide":{
          "name":"MPLABX",
          "semverRange":">=6.10"
