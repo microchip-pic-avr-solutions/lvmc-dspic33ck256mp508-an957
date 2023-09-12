@@ -117,7 +117,7 @@ void MCAPP_LoadSwitchingTable()
 {
 	uint16_t arrayIndex = 0;
     
-	if(mcappData.runDirection == 1)
+	if(mcappData.runDirection == 0)
     {
 	    for(arrayIndex = 0; arrayIndex < 8; arrayIndex++)
         {

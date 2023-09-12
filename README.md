@@ -36,15 +36,15 @@ To clone or download this application firmware on GitHub,
 ## 3. HARDWARE SETUP
 This section describes hardware setup required for the demonstration.
 
-1. Motor currents are amplified on the Motor Control Development Board; it can also be amplified by the amplifiers internal to the device dsPIC33CK256MP508. The firmware and development board are configured to sample and convert internal amplifier outputs (**'internal op-amp configuration'**). **Table-1** summarizes the resistors to be populated and removed to convert the development board from **‘internal op-amp configuration’** to **‘external op-amp configuration’** or vice versa.
+1. Motor currents are amplified on the Motor Control Development Board; it can also be amplified by the amplifiers internal to the device dsPIC33CK256MP508. The firmware and development board are configured to sample and convert internal amplifier outputs (**'internal op-amp configuration'**). The Table below summarizes the resistors to be populated and removed to convert the development board from **‘internal op-amp configuration’** to **‘external op-amp configuration’** or vice versa.
 
      <p align="left" >
      <img  src="images/Tableopamp.png"></p>
 
-2. Connect the  3-phase wires (**thick**) from the motor to the **connector J14**,  provided on the Motor Control Development Board in the specified order (as shown in Table 2).
+2. Connect the  3-phase wires from the motor to the **connector J14**,  provided on the Motor Control Development Board in the specified order as shown below.
      <p align="left" >
      <img  src="images/motorconnection.png"></p>
-3. Connect the  Hall Sensor wires (**thin**) from the motor to the **connector J7**,  provided on the Motor Control Development Board in the specified order (as shown in Table 3).
+3. Connect the  Hall Sensor wires from the motor to the **connector J7**,  provided on the Motor Control Development Board in the specified order as shown below.
      <p align="left" >
      <img  src="images/hallsensorconnection.jpg"></p>
 
@@ -111,12 +111,12 @@ Follow the below instructions, step by step, to set up and run the motor control
 3. Open <code>**bldc_main.h** </code> (**bldc.X > Header Files**) in the project **bldc.X.**  
      - Ensure that the macro <code>**SPEED_PI_CLOSEDLOOP**</code> is defined in the header file<code> **bldc_main.h**</code>
 
-     > **Note:** </br>
-     > There are three different operating modes in this application - openloop duty control, closed loop speed control and closed loop torque control. 
-     > These modes can be selected in the application code using the macros <code>**OPENLOOP**</code>, <code>**SPEED_PI_CLOSEDLOOP**</code> and <code>**CURRENT_PI_CLOSEDLOOP**</code>.
-     Ensure that only one of the operating modes is defined at a time.
+          > **Note:** </br>
+          > There are three different operating modes in this application - openloop duty control, closed loop speed control and closed loop torque control. 
+          > These modes can be selected in the application code using the macros <code>**OPENLOOP**</code>, <code>**SPEED_PI_CLOSEDLOOP**</code> and <code>**CURRENT_PI_CLOSEDLOOP**</code>.
+          Ensure that only one of the operating modes is defined at a time.
 
-     <p align="left"><img  src="images/configParam.png"></p>
+          <p align="left"><img  src="images/configParam.png"></p>
 
      - When internal amplifiers are used for current amplification (referred to as **internal op-amp configuration**), **define** the macro <code>**INTERNAL_OPAMP_CONFIG**</code> in <code>**port_config.h.**</code>
           <p align="left"> <img  src="images/internalopampconfig.png"></p>
