@@ -63,17 +63,19 @@ extern "C" {
 #include "clock.h"  
 #include "timer.h"
 #include "port_config.h"
-#include "library/library-motor/motor_control_types.h"
-#include "library/library-motor/motor_control_declarations.h"
+#include "motor_control_types.h"
+#include "motor_control_declarations.h"
 // *****************************************************************************
 // *****************************************************************************
 // Section: MODE OF OPERATION
 // Enable only one mode at a time
 // *****************************************************************************
 // *****************************************************************************   
-//#define OPENLOOP
+#undef OPENLOOP
+    
 #define SPEED_PI_CLOSEDLOOP
-//#define CURRENT_PI_CLOSEDLOOP
+    
+#undef CURRENT_PI_CLOSEDLOOP
 // *****************************************************************************
 // *****************************************************************************
 // Section: Constants
@@ -102,6 +104,8 @@ extern "C" {
 #define REV_SPEED_LIMIT   (unsigned long) ((float)(SPEED_MULTI)/(float)(REVERSE_DROP_SPEED))
     
 #define DESIRED_CURRENT_LIMIT  ((float)32767/(float)(MAX_BOARDCURRENT))*(float)(MAX_MOTORCURRENT)  
+    
+#define OC_FAULT_TIMEOUT 20000    // Count to prevent the overcurrent happening due to the stalling of the rotor
 //******************************************************************************
 /** Velocity Control Loop Coefficients */    
 #define SPEEDCNTR_PTERM        Q15(0.1)

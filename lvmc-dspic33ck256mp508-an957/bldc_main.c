@@ -66,6 +66,8 @@
 // *****************************************************************************
 // *****************************************************************************  
 MCAPP_DATA_T     mcappData;
+uint16_t count;
+uint16_t hall_prev,hall_current;
 /******************************************************************************
  * Description: The main function initialises the microcontroller port configurations
  *              and settings. It is the main program which also reads the button 
@@ -115,7 +117,7 @@ void MCAPP_LoadSwitchingTable()
 {
 	uint16_t arrayIndex = 0;
     
-	if(mcappData.runDirection == 1)
+	if(mcappData.runDirection == 0)
     {
 	    for(arrayIndex = 0; arrayIndex < 8; arrayIndex++)
         {
@@ -141,12 +143,27 @@ void MCAPP_LoadSwitchingTable()
 void MCAPP_CheckHallUpdatePWM(void)
 {
     mcappData.sector = HAL_MC1HallValueRead();
-    if((mcappData.sector >=1) && (mcappData.sector <= 6))
+    hall_current =  HAL_MC1HallValueRead();
+    if (mcappData.sector)
     {
+        if((hall_current == hall_prev))//this section is written to prevent the overcurrent happening due to the stalling of the rotor
+        {count++;}
+        else
+        {count = 0;}
+        if(count>OC_FAULT_TIMEOUT)
+        {
+           mcappData.dutyCycle = 0;
+           HAL_MC1PWMDisableOutputs();
+           mcappData.state = MCAPP_CMD_WAIT; 
+        }
+       if((mcappData.sector >=1) && (mcappData.sector <= 6))
+       {
         //set PWM overdrive to the corresponding PWM channel
         PWM1_SwapOverrideEnableDataSet(PWM_STATE1[mcappData.sector]);
         PWM2_SwapOverrideEnableDataSet(PWM_STATE2[mcappData.sector]);
         PWM3_SwapOverrideEnableDataSet(PWM_STATE3[mcappData.sector]);      
+       }
+    hall_prev = mcappData.sector;
     }
 }
 /******************************************************************************
@@ -334,6 +351,7 @@ void MCAPP_StateMachine(void)
             HAL_MC1PWMDisableOutputs();
             
             mcappData.state = MCAPP_INIT;
+            count =0;
             
         break;
 
